@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In</title>
+
+    <!-- Fonts & base styles -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/auth.css" rel="stylesheet" />
+
+    <!-- 🔔 Inline styles just for demo‑alert (you can move to auth.css) -->
+    <style>
+      /* Toast‑style coming‑soon alert */
+      #toast {
+        position: fixed;
+        left: 50%;
+        bottom: 1.5rem;
+        transform: translateX(-50%) translateY(120%);
+        background: #1b1b1b;
+        color: #fff;
+        padding: 0.875rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 500;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        opacity: 0;
+        transition: transform 0.45s ease, opacity 0.45s ease;
+        z-index: 9999;
+        pointer-events: none; /* ignore clicks */
+      }
+      #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ════════════════ Animated background slogans ════════════════ -->
+    <div class="background-text bg-text-1">M<span class="green">a</span>ke</div>
+    <div class="background-text bg-text-2">I<span class="green">a</span>T</div>
+    <div class="background-text bg-text-3">Publi<span class="green">c</span></div>
+
+    <div class="bg-btn bg-btn-1">Publicly</div>
+    <div class="bg-btn bg-btn-2">Showcase</div>
+    <div class="bg-btn bg-btn-3">Your</div>
+    <div class="bg-btn bg-btn-4">Business</div>
+    <div class="bg-btn bg-btn-5">To the</div>
+    <div class="bg-btn bg-btn-6">World</div>
+
+    <!-- ════════════════ Auth card ════════════════ -->
+    <div class="card" role="main" aria-label="Sign In form">
+      <button class="back-button" type="button" aria-label="Go back" onclick="window.history.back()">
+        <svg
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span>Back</span>
+      </button>
+
+      <h2>Sign In</h2>
+      <p class="subtitle">
+        The only link you need to be top #1
+      </p>
+
+      <!-- Google login button (enabled) -->
+      <button
+        class="btn-google"
+        id="googleLoginBtn"
+        type="button"
+        aria-label="Continue with Google"
+      >
+        <svg
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M44.5 20H24V28H35.5C34.791 32.223 31.41 35.556 27 36.438V44.417C33.488 43.155 39.011 38.082 42.158 31.439L44.5 20Z"
+            fill="#4285F4"
+          />
+          <path
+            d="M24 44.5C30.347 44.5 35.797 42.485 39.817 38.675L35.5 31.439C32.413 33.684 28.455 35.006 24 35.006C17.062 35.006 11.282 30.222 9.208 23.829L1 26.83C3.063 32.748 8.169 37.747 14.5 40.584V44.5H24Z"
+            fill="#34A853"
+          />
+          <path
+            d="M9.208 23.829C8.75 22.48 8.5 21.01 8.5 19.5C8.5 17.99 8.75 16.52 9.208 15.171L1 12.17C1 15.118 1 18.232 1 21.5C1 22.825 1 24.175 1 25.5L9.208 23.829Z"
+            fill="#FBBC05"
+          />
+          <path
+            d="M24 8.5C28.455 8.5 32.413 9.816 35.5 12.061L39.817 8.251C35.797 4.441 30.347 2.427 24 2.427C17.062 2.427 11.282 7.211 9.208 13.604L1 10.592C3.063 4.673 8.169 0 14.5 0L24 8.5Z"
+            fill="#EA4335"
+          />
+        </svg>
+        Continue with Google
+      </button>
+
+
+      <p class="disclaimer">
+        Your data is secure and protected with industry-standard encryption
+      </p>
+    </div>
+
+    <!-- Toast / Alert container -->
+    <div id="toast" role="alert" aria-live="polite">Coming soon ✨</div>
+    <!-- ════════════════ Firebase & interaction scripts ════════════════ -->
+     <!-- Firebase core SDKs (compat style) -->
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-database-compat.js"></script>
+
+     <script>
+    // Firebase Config
+    const firebaseConfig = {
+       apiKey: "AIzaSyD-GCRFbpLQwU55kShhS-DtNSNOPEySQ_g",
+  authDomain: "octen-29d12.firebaseapp.com",
+  databaseURL: "https://octen-29d12-default-rtdb.firebaseio.com",
+  projectId: "octen-29d12",
+  storageBucket: "octen-29d12.appspot.com",
+  messagingSenderId: "1095439842170",
+  appId: "1:1095439842170:web:da0dc8a2c414c60f33f4c3",
+  measurementId: "G-483MYXKNVL"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+
+    document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const userRef = db.ref('users/' + user.uid);
+
+        const snapshot = await userRef.once('value');
+        const isNewUser = !snapshot.exists();
+
+        if (isNewUser) {
+          const deviceInfo = {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            platform: navigator.platform,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            screen: {
+              width: window.screen.width,
+              height: window.screen.height
+            }
+          };
+
+          // Get IP and location
+          const ipInfo = await fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => data.ip);
+
+          let geo = {};
+          if (navigator.geolocation) {
+            try {
+              geo = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(
+                  pos => resolve({
+                    latitude: pos.coords.latitude,
+                    longitude: pos.coords.longitude
+                  }),
+                  err => resolve({ error: "Denied or failed" }),
+                  { timeout: 5000 }
+                );
+              });
+            } catch (e) {
+              geo = { error: "Geolocation failed" };
+            }
+          }
+
+          await userRef.set({
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid,
+            provider: user.providerData,
+            firstLogin: new Date().toISOString(),
+            ip: ipInfo,
+            location: geo,
+            device: deviceInfo
+          });
+        }
+
+        showToast("Logged in successfully ✅");
+        window.location.href = '/dashboard'; // Redirect to dashboard
+        // You can redirect here or update UI
+      } catch (error) {
+        console.error(error);
+        showToast("Login failed ❌");
+      }
+    });
+  </script>
+  </body>
+</html>
