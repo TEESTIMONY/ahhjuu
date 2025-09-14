@@ -624,13 +624,19 @@
     <div class="tab-content" tabindex="0">
      <section aria-labelledby="tab-book-call" class="book-call tab-content-section visible" id="book-call" role="tabpanel">
       <form novalidate="" onsubmit="handleBookCall(event); return false;">
-       <div class="custom-input">
-        <label for="visitor-email">
-         <i class="fas fa-envelope">
-         </i>
-        </label>
-        <input aria-required="true" autocomplete="email" id="visitor-email" name="visitor-email" placeholder="Your email" required="" type="email"/>
-       </div>
+    <div class="custom-input">
+     <label for="visitor-name">
+      <i class="fas fa-user"></i>
+     </label>
+     <input aria-required="true" autocomplete="name" id="visitor-name" name="visitor-name" placeholder="Your name" required type="text" />
+    </div>
+    <div class="custom-input">
+     <label for="visitor-email">
+      <i class="fas fa-envelope">
+      </i>
+     </label>
+     <input aria-required="true" autocomplete="email" id="visitor-email" name="visitor-email" placeholder="Your email" required="" type="email"/>
+    </div>
        <div class="custom-input">
         <label for="visitor-phone">
          <i class="fas fa-phone-alt">
@@ -1180,13 +1186,15 @@
         window.handleBookCall = async function(event) {
             event.preventDefault();
 
+            const visitorNameInput = document.getElementById('visitor-name');
+            const visitorName = visitorNameInput ? visitorNameInput.value : '';
             const visitorEmail = visitorEmailInput.value;
             const visitorPhone = visitorPhoneInput.value;
             const selectedAvailability = document.querySelector('input[name="availability"]:checked');
 
             // Basic validation
-            if (!visitorEmail || !selectedAvailability) {
-                showNotification("Please provide your email and select an availability.", true);
+            if (!visitorName || !visitorEmail || !selectedAvailability) {
+                showNotification("Please provide your name, email, and select an availability.", true);
                 return;
             }
             // Load email directly from email field directly under userid
@@ -1208,6 +1216,7 @@
             bookCallSubmitBtn.classList.add('loading');
 
             const bookingData = {
+                visitorName,
                 visitorEmail,
                 visitorPhone,
                 availability: selectedAvailability.value,
@@ -1220,6 +1229,7 @@
 You have a new call booking request from your portfolio.
 
 Visitor Details:
+Name: ${visitorName}
 Email: ${visitorEmail}
 Phone: ${visitorPhone || 'Not provided'}
 
@@ -1250,6 +1260,7 @@ You can contact them directly to confirm the booking.`;
 
                 showNotification("Booking successful! The profile owner has been notified.");
                 // Reset form inputs after successful submission
+                if (visitorNameInput) visitorNameInput.value = '';
                 visitorEmailInput.value = '';
                 visitorPhoneInput.value = '';
                 if (selectedAvailability) {
