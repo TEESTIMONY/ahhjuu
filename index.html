@@ -1041,20 +1041,27 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Redirect on page load based on authentication status
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is authenticated, redirect to dashboard
+        window.location.replace('/dashboard.html');
+      } else {
+        // User is not authenticated, redirect to auth page
+        window.location.replace('/auth.html');
+      }
+    });
+
     // Check authentication status and redirect Get Started buttons
     function setupGetStartedButtons() {
       const getStartedButtons = document.querySelectorAll('a[href="/auth.html"], a[href="/auth"]');
-      
       getStartedButtons.forEach(button => {
         button.addEventListener('click', (e) => {
           e.preventDefault();
-          
           onAuthStateChanged(auth, (user) => {
             if (user) {
-              // User is logged in, redirect to dashboard
               window.location.href = '/dashboard.html';
             } else {
-              // User is not logged in, redirect to auth page
               window.location.href = '/auth.html';
             }
           });
