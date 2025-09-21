@@ -3483,7 +3483,7 @@ input[disabled] {
                     setupLinkBtn.style.display = 'none'; // Hide the setup button
                     // TODO: Update production domain when ready - currently using anju.pages.cc as placeholder
                     // Use localhost for development, production domain when deployed
-                    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:5500' : 'https://ahhjuu.vercel.app';    //'https://anju.pages.cc'
+                    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:5500' : 'https://myahju.com';    //'https://anju.pages.cc'
                     actualLinkInBio.textContent = `${baseUrl}/r/?id=${username}`;
                     linkInBioMessage.textContent = ''; // Clear any previous messages
                     copyLinkBtn.onclick = () => copyTextToClipboard(`${baseUrl}/r/?id=${username}`);
