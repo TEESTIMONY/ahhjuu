@@ -124,19 +124,26 @@
      <script>
     // Firebase Config
     const firebaseConfig = {
-       apiKey: "AIzaSyD-GCRFbpLQwU55kShhS-DtNSNOPEySQ_g",
-  authDomain: "octen-29d12.firebaseapp.com",
-  databaseURL: "https://octen-29d12-default-rtdb.firebaseio.com",
-  projectId: "octen-29d12",
-  storageBucket: "octen-29d12.appspot.com",
-  messagingSenderId: "1095439842170",
-  appId: "1:1095439842170:web:da0dc8a2c414c60f33f4c3",
-  measurementId: "G-483MYXKNVL"
+      apiKey: "AIzaSyD-GCRFbpLQwU55kShhS-DtNSNOPEySQ_g",
+      authDomain: "octen-29d12.firebaseapp.com",
+      databaseURL: "https://octen-29d12-default-rtdb.firebaseio.com",
+      projectId: "octen-29d12",
+      storageBucket: "octen-29d12.appspot.com",
+      messagingSenderId: "1095439842170",
+      appId: "1:1095439842170:web:da0dc8a2c414c60f33f4c3",
+      measurementId: "G-483MYXKNVL"
     };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
+
+    // Redirect to dashboard if already authenticated
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        window.location.replace('/dashboard.html');
+      }
+    });
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
@@ -144,7 +151,6 @@
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-
 
     document.getElementById('googleLoginBtn').addEventListener('click', async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
