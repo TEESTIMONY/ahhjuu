@@ -1944,176 +1944,13 @@ input[disabled] {
       </div>
      </div>
     </div>
-    <!-- Activate Card Tab - Commented out for now -->
-    <div aria-labelledby="tab-activate-card" class="tab-content hidden" id="activate-card" role="tabpanel" tabindex="0">
-     <h2 class="text-2xl font-bold text-gray-800 mb-6">Preview NFC Card</h2>
-     <div class="flex flex-col md:flex-row gap-8">
-      <form class="space-y-6 flex-1" id="cardForm" novalidate="">
-       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="input-group">
-         <label for="cardName">
-          Card Name:
-          <span aria-label="The name displayed on your NFC card." class="tooltip" tabindex="0">
-           <i class="fas fa-info-circle"></i>
-           <span class="tooltiptext">The name displayed on your NFC card.</span>
-          </span>
-         </label>
-         <input autocomplete="off" id="cardName" name="name" placeholder="@lourdjxke" type="text"/>
-        </div>
-        <div class="input-group">
-         <label for="cardCta">
-          Call to Action (Link/Number):
-          <span aria-label="This link is prefilled and cannot be changed." class="tooltip" tabindex="0">
-           <i class="fas fa-info-circle">
-           </i>
-           <span class="tooltiptext">
-            This link is prefilled and cannot be changed.
-           </span>
-          </span>
-         </label>
-         <input autocomplete="off" disabled="" id="cardCta" name="cta" placeholder="https://anju.cc/username" type="text"/>
-        </div>
-       </div>
-       <div class="input-group">
-        <label>
-         Card Type:
-        </label>
-        <div aria-label="Select card type" class="flex flex-wrap gap-4 mt-2" role="radiogroup">
-         <label aria-checked="false" aria-labelledby="cardTypePlatinum" class="custom-radio-label" role="radio" tabindex="0">
-          <input class="hidden" name="cardTypeRadio" type="radio" value="platinum"/>
-          <span class="custom-radio-button" id="cardTypePlatinum">
-           Platinum
-          </span>
-         </label>
-         <label aria-checked="true" aria-labelledby="cardTypeBlack" class="custom-radio-label" role="radio" tabindex="0">
-          <input checked="" class="hidden" name="cardTypeRadio" type="radio" value="black"/>
-          <span class="custom-radio-button" id="cardTypeBlack">
-           Black
-          </span>
-         </label>
-         <label aria-checked="false" aria-labelledby="cardTypeBamboo" class="custom-radio-label" role="radio" tabindex="0">
-          <input class="hidden" name="cardTypeRadio" type="radio" value="bamboo"/>
-          <span class="custom-radio-button" id="cardTypeBamboo">
-           Bamboo
-          </span>
-         </label>
-        </div>
-       </div>
-       <div class="input-group">
-        <label for="cardLogoUpload">
-         Upload Logo:
-         <span aria-label="You can upload a logo to display on your card." class="tooltip" tabindex="0">
-          <i class="fas fa-info-circle">
-          </i>
-          <span class="tooltiptext">
-           You can upload a logo to display on your card.
-          </span>
-         </span>
-        </label>
-        <label aria-describedby="cardLogoFileName" class="custom-file-label" for="cardLogoUpload" role="button" tabindex="0">
-         Logo File:
-         <span class="file-name" id="cardLogoFileName">
-          No file chosen
-         </span>
-         <span class="select-button">
-          Choose File
-         </span>
-        </label>
-        <input accept="image/*" aria-hidden="true" class="hidden" id="cardLogoUpload" name="cardLogoUpload" type="file"/>
-        <img alt="Card Logo Preview" class="image-preview" id="cardLogoPreview" src="" style="display: none;"/>
-       </div>
-       <button class="btn-primary" id="activateCardSubmitBtn" type="submit" style="display: none">
-        Preview Card
-        <span class="loading-spinner" id="cardLoading" style="display: none;">
-        </span>
-       </button>
-   </div>
-  </div>
-  
-  <!-- Link-in-Bio Setup Modal -->
-  <div aria-describedby="modalDescription" aria-labelledby="modalTitle" aria-modal="true" class="modal-overlay" id="linkSetupModal" role="dialog">
-   <div class="modal-content">
-    <div class="modal-header">
-     <h3 id="modalTitle">
-      Set up Your Link-in-Bio
-     </h3>
-     <button aria-label="Close modal" class="modal-close-btn" id="closeModalBtn">
-      ×
-     </button>
-    </div>
-    <!-- Step 1: Username Input -->
-    <div class="modal-step active" id="modalStep1">
-     <p class="text-gray-700 mb-4" id="modalDescription">
-      Choose a unique username for your link-in-bio.
-     </p>
-     <div class="input-group mb-4">
-      <label for="usernameInput">
-       Username:
-      </label>
-      <input autocomplete="username" class="w-full" id="usernameInput" placeholder="e.g., yourname123" type="text"/>
-      <p class="text-sm mt-1" id="usernameAvailabilityMessage">
-      </p>
-     </div>
-     <div class="modal-footer">
-      <button class="btn-primary" id="checkUsernameBtn">
-       Check Availability
-      </button>
-      <button class="btn-primary" disabled="" id="nextStep1Btn">
-       Next
-      </button>
-     </div>
-    </div>
-    <!-- Step 2: Email Verification -->
-    <div class="modal-step" id="modalStep2">
-     <p class="text-gray-700 mb-4">
-      Your email is not verified. Please verify your email to activate your link-in-bio.
-     </p>
-     <div class="modal-footer">
-      <button class="btn-primary" id="sendVerificationEmailBtn">
-       Send Email Verification Link
-      </button>
-      <button class="btn-primary" id="iHaveVerifiedBtn">
-       I have verified
-      </button>
-     </div>
-     <p class="text-sm mt-2 text-center" id="emailVerificationMessage">
-     </p>
-    </div>
-   </div>
-  </div>
-  
-  <!-- Image Scraper Modal -->
-  <div aria-labelledby="imgScraperTitle" aria-modal="true" class="hidden" id="imageScraperModal" role="dialog">
-   <div class="modal-content">
-    <div class="modal-header">
-     <h3 id="imgScraperTitle">
-      Import Images from URL
-     </h3>
-     <button aria-label="Close image scraper modal" class="modal-close-btn" id="img-scraper-close">
-      ×
-     </button>
-    </div>
-    <input aria-label="Enter URL to fetch images" id="img-scraper-url" placeholder="Enter URL here" type="text"/>
-    <button class="btn-primary mt-2" id="img-scraper-fetch-btn" type="button">
-     Fetch Images
-    </button>
-    <p aria-live="polite" id="img-scraper-status">
-    </p>
-    <p aria-live="assertive" id="img-scraper-error">
-    </p>
-    <div id="img-scraper-results-container">
-    </div>
-   </div>
-  </div>
   
   <!-- EmailJS SDK -->
   <script src="https://cdn.emailjs.com/dist/email.min.js">
-  </script>
+  </script> 
   <!-- Combined JavaScript (merged from all JS files) -->
   <script src="https://cdn.tailwindcss.com">
   </script>
-  <!-- Main Application JavaScript -->
-  <script type="module" src="main.js"></script>
   <script type="module">
       
    // Import Firebase configuration and initialization
@@ -3464,24 +3301,24 @@ input[disabled] {
                 const profilePicUrl = userData.photoURL || 'https://placehold.co/80x80/aabbcc/ffffff?text=P';
                 const username = profileData?.username || '';
 
-                if (overviewProfileName) overviewProfileName.textContent = name;
-                
+                overviewProfileName.textContent = name;
+                //console userData
+
                 currentUsername = username; // Update global currentUsername for modal pre-fill
 
                 if (username) {
-                    if (linkInBioDisplay) linkInBioDisplay.style.display = 'flex'; // Show the actual link
-                    if (setupLinkBtn) setupLinkBtn.style.display = 'none'; // Hide the setup button
+                    linkInBioDisplay.style.display = 'flex'; // Show the actual link
+                    setupLinkBtn.style.display = 'none'; // Hide the setup button
                     // TODO: Update production domain when ready - currently using anju.pages.cc as placeholder
                     // Use localhost for development, production domain when deployed
                     const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:5500' : 'https://app.myahju.com';    //'https://anju.pages.cc'
-                    if (actualLinkInBio) actualLinkInBio.textContent = `${baseUrl}/r/?id=${username}`;
-                    if (copyLinkBtn) {
-                        copyLinkBtn.onclick = () => copyTextToClipboard(`${baseUrl}/r/?id=${username}`);
-                    }
+                    actualLinkInBio.textContent = `${baseUrl}/r/?id=${username}`;
+                    linkInBioMessage.textContent = ''; // Clear any previous messages
+                    copyLinkBtn.onclick = () => copyTextToClipboard(`${baseUrl}/r/?id=${username}`);
                 } else {
-                    if (linkInBioDisplay) linkInBioDisplay.style.display = 'none'; // Hide the actual link
-                    if (setupLinkBtn) setupLinkBtn.style.display = 'block'; // Show the setup button
-                    if (linkInBioMessage) linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
+                    linkInBioDisplay.style.display = 'none'; // Hide the actual link
+                    setupLinkBtn.style.display = 'block'; // Show the setup button
+                    linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
                     // Attach event listener for Check Availability button
                     const checkUsernameBtn = document.getElementById('checkUsernameBtn');
                     const usernameInput = document.getElementById('usernameInput');
@@ -3531,12 +3368,10 @@ input[disabled] {
             });
             onValue(userRef, (snapshot) => {
                 const userData = snapshot.val();
-                if (overviewProfilePic) {
-                    if (userData && userData.photoURL) {
-                        overviewProfilePic.src = userData.photoURL;
-                    } else {
-                        overviewProfilePic.src = 'https://placehold.co/80x80/aabbcc/ffffff?text=P'; // Default placeholder
-                    }
+                if (userData && userData.photoURL) {
+                    overviewProfilePic.src = userData.photoURL;
+                } else {
+                    overviewProfilePic.src = 'https://placehold.co/80x80/aabbcc/ffffff?text=P'; // Default placeholder
                 }
             });
             // Load Stats (already handled by loadStats function)
