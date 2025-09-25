@@ -3491,6 +3491,26 @@ input[disabled] {
                     linkInBioDisplay.style.display = 'none'; // Hide the actual link
                     setupLinkBtn.style.display = 'block'; // Show the setup button
                     linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
+
+                    // Attach event listener after button is visible
+                    setupLinkBtn.addEventListener('click', () => {
+                        console.log('setupLinkBtn clicked');
+                        const linkSetupModal = document.getElementById('linkSetupModal');
+                        const modalStep1 = document.getElementById('modalStep1');
+                        const modalStep2 = document.getElementById('modalStep2');
+                        const usernameInput = document.getElementById('usernameInput');
+                        const usernameAvailabilityMessage = document.getElementById('usernameAvailabilityMessage');
+                        const nextStep1Btn = document.getElementById('nextStep1Btn');
+                        const emailVerificationMessage = document.getElementById('emailVerificationMessage');
+                        usernameInput.value = currentUsername; // Pre-fill if exists
+                        usernameAvailabilityMessage.textContent = '';
+                        nextStep1Btn.disabled = true;
+                        emailVerificationMessage.textContent = '';
+                        modalStep1.classList.add('active');
+                        modalStep2.classList.remove('active');
+                        linkSetupModal.classList.add('show');
+                        usernameInput.focus();
+                    });
                 }
             });
             onValue(userRef, (snapshot) => {
