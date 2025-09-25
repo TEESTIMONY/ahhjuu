@@ -1378,7 +1378,6 @@
             });
         }
 
-
         // --- Main Application Logic ---
         document.addEventListener('DOMContentLoaded', async () => {
             // Initialize tab navigation immediately
