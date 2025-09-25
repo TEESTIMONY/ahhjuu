@@ -3658,43 +3658,46 @@ input[disabled] {
         // --- Overview Modal Specific Logic ---
         function initOverviewManagerModalLogic() {
             // Modal elements
-            const linkSetupModal = document.getElementById('linkSetupModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const modalStep1 = document.getElementById('modalStep1');
-            const modalStep2 = document.getElementById('modalStep2');
-            const usernameInput = document.getElementById('usernameInput');
-            const usernameAvailabilityMessage = document.getElementById('usernameAvailabilityMessage');
-            const checkUsernameBtn = document.getElementById('checkUsernameBtn');
-            const nextStep1Btn = document.getElementById('nextStep1Btn');
-            const sendVerificationEmailBtn = document.getElementById('sendVerificationEmailBtn');
-            const iHaveVerifiedBtn = document.getElementById('iHaveVerifiedBtn');
-            const emailVerificationMessage = document.getElementById('emailVerificationMessage');
-            const setupLinkBtn = document.getElementById('setupLinkBtn'); // Get the button from the overview tab
 
-            // Function to open the modal
-            setupLinkBtn.addEventListener('click', () => {
-                console.log('setupLinkBtn clicked');
-                linkSetupModal.classList.add('show');
-                // Reset to step 1
-                modalStep1.classList.add('active');
-                modalStep2.classList.remove('active');
-                usernameInput.value = currentUsername; // Pre-fill if exists
-                usernameAvailabilityMessage.textContent = '';
-                nextStep1Btn.disabled = true;
-                emailVerificationMessage.textContent = '';
-                usernameInput.focus();
-            });
+            document.addEventListener('DOMContentLoaded', () => {
+                const linkSetupModal = document.getElementById('linkSetupModal');
+                const closeModalBtn = document.getElementById('closeModalBtn');
+                const modalStep1 = document.getElementById('modalStep1');
+                const modalStep2 = document.getElementById('modalStep2');
+                const usernameInput = document.getElementById('usernameInput');
+                const usernameAvailabilityMessage = document.getElementById('usernameAvailabilityMessage');
+                const checkUsernameBtn = document.getElementById('checkUsernameBtn');
+                const nextStep1Btn = document.getElementById('nextStep1Btn');
+                const sendVerificationEmailBtn = document.getElementById('sendVerificationEmailBtn');
+                const iHaveVerifiedBtn = document.getElementById('iHaveVerifiedBtn');
+                const emailVerificationMessage = document.getElementById('emailVerificationMessage');
+                const setupLinkBtn = document.getElementById('setupLinkBtn'); // Get the button from the overview tab
 
-            // Function to close the modal
-            closeModalBtn.addEventListener('click', () => {
-                linkSetupModal.classList.remove('show');
-            });
+                // Function to open the modal
+                setupLinkBtn.addEventListener('click', () => {
+                    console.log('setupLinkBtn clicked');
+                    linkSetupModal.classList.add('show');
+                    // Reset to step 1
+                    modalStep1.classList.add('active');
+                    modalStep2.classList.remove('active');
+                    usernameInput.value = currentUsername; // Pre-fill if exists
+                    usernameAvailabilityMessage.textContent = '';
+                    nextStep1Btn.disabled = true;
+                    emailVerificationMessage.textContent = '';
+                    usernameInput.focus();
+                });
 
-            // Close modal if clicking outside content (optional, but good UX)
-            linkSetupModal.addEventListener('click', (e) => {
-                if (e.target === linkSetupModal) {
+                // Function to close the modal
+                closeModalBtn.addEventListener('click', () => {
                     linkSetupModal.classList.remove('show');
-                }
+                });
+
+                // Close modal if clicking outside content (optional, but good UX)
+                linkSetupModal.addEventListener('click', (e) => {
+                    if (e.target === linkSetupModal) {
+                        linkSetupModal.classList.remove('show');
+                    }
+                });
             });
 
             // Step 1: Username Logic
