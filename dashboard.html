@@ -3464,24 +3464,24 @@ input[disabled] {
                 const profilePicUrl = userData.photoURL || 'https://placehold.co/80x80/aabbcc/ffffff?text=P';
                 const username = profileData?.username || '';
 
-                overviewProfileName.textContent = name;
-                //console userData
-
+                if (overviewProfileName) overviewProfileName.textContent = name;
+                
                 currentUsername = username; // Update global currentUsername for modal pre-fill
 
                 if (username) {
-                    linkInBioDisplay.style.display = 'flex'; // Show the actual link
-                    setupLinkBtn.style.display = 'none'; // Hide the setup button
+                    if (linkInBioDisplay) linkInBioDisplay.style.display = 'flex'; // Show the actual link
+                    if (setupLinkBtn) setupLinkBtn.style.display = 'none'; // Hide the setup button
                     // TODO: Update production domain when ready - currently using anju.pages.cc as placeholder
                     // Use localhost for development, production domain when deployed
                     const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:5500' : 'https://app.myahju.com';    //'https://anju.pages.cc'
-                    actualLinkInBio.textContent = `${baseUrl}/r/?id=${username}`;
-                    linkInBioMessage.textContent = ''; // Clear any previous messages
-                    copyLinkBtn.onclick = () => copyTextToClipboard(`${baseUrl}/r/?id=${username}`);
+                    if (actualLinkInBio) actualLinkInBio.textContent = `${baseUrl}/r/?id=${username}`;
+                    if (copyLinkBtn) {
+                        copyLinkBtn.onclick = () => copyTextToClipboard(`${baseUrl}/r/?id=${username}`);
+                    }
                 } else {
-                    linkInBioDisplay.style.display = 'none'; // Hide the actual link
-                    setupLinkBtn.style.display = 'block'; // Show the setup button
-                    linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
+                    if (linkInBioDisplay) linkInBioDisplay.style.display = 'none'; // Hide the actual link
+                    if (setupLinkBtn) setupLinkBtn.style.display = 'block'; // Show the setup button
+                    if (linkInBioMessage) linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
                     // Attach event listener for Check Availability button
                     const checkUsernameBtn = document.getElementById('checkUsernameBtn');
                     const usernameInput = document.getElementById('usernameInput');
@@ -3531,10 +3531,12 @@ input[disabled] {
             });
             onValue(userRef, (snapshot) => {
                 const userData = snapshot.val();
-                if (userData && userData.photoURL) {
-                    overviewProfilePic.src = userData.photoURL;
-                } else {
-                    overviewProfilePic.src = 'https://placehold.co/80x80/aabbcc/ffffff?text=P'; // Default placeholder
+                if (overviewProfilePic) {
+                    if (userData && userData.photoURL) {
+                        overviewProfilePic.src = userData.photoURL;
+                    } else {
+                        overviewProfilePic.src = 'https://placehold.co/80x80/aabbcc/ffffff?text=P'; // Default placeholder
+                    }
                 }
             });
             // Load Stats (already handled by loadStats function)
