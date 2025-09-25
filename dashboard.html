@@ -3436,9 +3436,9 @@ input[disabled] {
                 const profilePicUrl = userData.photoURL || 'https://placehold.co/80x80/aabbcc/ffffff?text=P';
                 const username = profileData?.username || '';
 
-                overviewProfileName.textContent = name;
-                //console userData
-
+                        // Remove button cloning and ensure event listener is attached only once
+                        nextStep1Btn.removeEventListener('click', newNextStepHandler); // Defensive: remove if exists
+                        nextStep1Btn.addEventListener('click', newNextStepHandler);
                 currentUsername = username; // Update global currentUsername for modal pre-fill
 
                 if (username) {
@@ -3808,6 +3808,7 @@ input[disabled] {
             });
 
             nextStep1Btn.addEventListener('click', async () => {
+                    console.log('Next button clicked!'); // Confirm event fires
                 const desiredUsername = usernameInput.value.trim();
                 if (!userId) {
                     showIslandNotification('User not authenticated. Cannot save username.', true);
