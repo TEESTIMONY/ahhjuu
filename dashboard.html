@@ -3436,8 +3436,34 @@ input[disabled] {
                 const profilePicUrl = userData.photoURL || 'https://placehold.co/80x80/aabbcc/ffffff?text=P';
                 const username = profileData?.username || '';
 
-                        // Remove button cloning and ensure event listener is attached only once
-                        nextStep1Btn.removeEventListener('click', newNextStepHandler); // Defensive: remove if exists
+                        // Define handler first, then attach event listener
+                        const newNextStepHandler = async () => {
+                            const desiredUsername = usernameInput.value.trim();
+                            if (!userId) {
+                                showIslandNotification('User not authenticated. Cannot save username.', true);
+                                return;
+                            }
+                            try {
+                                const profileRef = ref(rtdb, `users/${userId}/profile`);
+                                await update(profileRef, { username: desiredUsername });
+                                showIslandNotification('Username saved successfully!');
+                                currentUsername = desiredUsername;
+                                const user = auth.currentUser;
+                                if (user && user.emailVerified) {
+                                    currentUserEmailVerified = true;
+                                    showIslandNotification('Email already verified. Link-in-bio is active!');
+                                    linkSetupModal.classList.remove('show');
+                                    loadOverviewContent();
+                                } else {
+                                    currentUserEmailVerified = false;
+                                    modalStep1.classList.remove('active');
+                                    modalStep2.classList.add('active');
+                                }
+                            } catch (error) {
+                                console.error("Error saving username:", error);
+                                showIslandNotification(`Error saving username: ${error.message}`, true);
+                            }
+                        };
                         nextStep1Btn.addEventListener('click', newNextStepHandler);
                 currentUsername = username; // Update global currentUsername for modal pre-fill
 
