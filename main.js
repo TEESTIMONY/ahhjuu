@@ -1308,6 +1308,7 @@
                     nextStep1Btn.disabled = true;
                 }
             });
+            });
 
             nextStep1Btn.addEventListener('click', async () => {
                 const desiredUsername = usernameInput.value.trim();
