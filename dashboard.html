@@ -3502,6 +3502,22 @@ input[disabled] {
                             usernameAvailabilityMessage.textContent = 'Username must be at least 3 characters.';
                             usernameAvailabilityMessage.style.color = 'red';
                             nextStep1Btn.disabled = true;
+                    // Attach event listener for Next button
+                    nextStep1Btn.addEventListener('click', async () => {
+                        const desiredUsername = usernameInput.value.trim();
+                        if (!userId) {
+                            showIslandNotification('User not authenticated. Cannot save username.', true);
+                            return;
+                        }
+                        try {
+                            const profileRef = ref(rtdb, `users/${userId}/profile`);
+                            await set(profileRef, { ...profileData, username: desiredUsername });
+                            modalStep1.classList.remove('active');
+                            modalStep2.classList.add('active');
+                        } catch (error) {
+                            showIslandNotification('Failed to save username. Try again.', true);
+                        }
+                    });
                             return;
                         }
                         // Simulate availability check
