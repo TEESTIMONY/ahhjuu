@@ -1383,6 +1383,9 @@
             // Initialize tab navigation immediately
             initTabNavigation();
 
+            // Initialize modal logic for overview immediately so button always works
+            initOverviewManagerModalLogic();
+
             // Initialize Firebase and wait for authentication to be ready
             await initializeFirebase();
 
@@ -1393,7 +1396,6 @@
                 initContactManager();
                 initSocialMediaManager();
                 initCardManager();
-                initOverviewManagerModalLogic(); // Initialize the modal logic for overview
                 loadOverviewContent(); // Explicitly load overview content on initial ready state
             } else {
                 console.warn("Firebase authentication not fully ready. Data loading might be delayed.");
