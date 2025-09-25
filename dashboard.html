@@ -3511,11 +3511,25 @@ input[disabled] {
                         }
                         try {
                             const profileRef = ref(rtdb, `users/${userId}/profile`);
-                            await set(profileRef, { ...profileData, username: desiredUsername });
-                            modalStep1.classList.remove('active');
-                            modalStep2.classList.add('active');
+                            // Only update username, keep other profile data if it exists
+                            await update(profileRef, { username: desiredUsername }); // Use update for partial merge
+                            showIslandNotification('Username saved successfully!');
+                            currentUsername = desiredUsername; // Update global variable
+
+                            const user = auth.currentUser;
+                            if (user && user.emailVerified) {
+                                currentUserEmailVerified = true;
+                                showIslandNotification('Email already verified. Link-in-bio is active!');
+                                linkSetupModal.classList.remove('show');
+                                loadOverviewContent(); // Refresh overview to show new link
+                            } else {
+                                currentUserEmailVerified = false;
+                                modalStep1.classList.remove('active');
+                                modalStep2.classList.add('active');
+                            }
                         } catch (error) {
-                            showIslandNotification('Failed to save username. Try again.', true);
+                            console.error("Error saving username:", error);
+                            showIslandNotification(`Error saving username: ${error.message}`, true);
                         }
                     });
                             return;
