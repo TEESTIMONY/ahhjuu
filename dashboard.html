@@ -3545,6 +3545,7 @@ input[disabled] {
                             nextStep1Btn.replaceWith(nextStep1Btn.cloneNode(true));
                             const freshNextStep1Btn = document.getElementById('nextStep1Btn');
                             freshNextStep1Btn.addEventListener('click', async () => {
+                                alert('Next button clicked!');
                                 console.log('Next button clicked');
                                 const desiredUsername = usernameInput.value.trim();
                                 if (!userId) {
