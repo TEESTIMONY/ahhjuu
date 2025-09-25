@@ -3566,6 +3566,39 @@ input[disabled] {
                         modalStep2.classList.remove('active');
                         linkSetupModal.classList.add('show');
                         usernameInput.focus();
+
+                        // Remove previous event listener if any
+                        const newNextStepHandler = async () => {
+                            console.log('Next button clicked');
+                            const desiredUsername = usernameInput.value.trim();
+                            if (!userId) {
+                                showIslandNotification('User not authenticated. Cannot save username.', true);
+                                return;
+                            }
+                            try {
+                                const profileRef = ref(rtdb, `users/${userId}/profile`);
+                                await update(profileRef, { username: desiredUsername });
+                                showIslandNotification('Username saved successfully!');
+                                currentUsername = desiredUsername;
+                                const user = auth.currentUser;
+                                if (user && user.emailVerified) {
+                                    currentUserEmailVerified = true;
+                                    showIslandNotification('Email already verified. Link-in-bio is active!');
+                                    linkSetupModal.classList.remove('show');
+                                    loadOverviewContent();
+                                } else {
+                                    currentUserEmailVerified = false;
+                                    modalStep1.classList.remove('active');
+                                    modalStep2.classList.add('active');
+                                }
+                            } catch (error) {
+                                console.error("Error saving username:", error);
+                                showIslandNotification(`Error saving username: ${error.message}`, true);
+                            }
+                        };
+                        nextStep1Btn.replaceWith(nextStep1Btn.cloneNode(true));
+                        const freshNextStep1Btn = document.getElementById('nextStep1Btn');
+                        freshNextStep1Btn.addEventListener('click', newNextStepHandler);
                     });
                 }
             });
