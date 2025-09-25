@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/dashboard", "destination": "/dashboard.html" },
-    { "source": "/auth", "destination": "/auth.html" },
-    { "source": "/r/:id", "destination": "/r/index.html" },
-    { "source": "/(.*)", "destination": "/404.html" }
-  ]
-}
