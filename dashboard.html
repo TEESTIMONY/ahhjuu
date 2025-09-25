@@ -2027,7 +2027,21 @@ input[disabled] {
         <span class="loading-spinner" id="cardLoading" style="display: none;">
         </span>
        </button>
-       
+   </div>
+  </div>
+  
+  <!-- Link-in-Bio Setup Modal -->
+  <div aria-describedby="modalDescription" aria-labelledby="modalTitle" aria-modal="true" class="modal-overlay" id="linkSetupModal" role="dialog">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3 id="modalTitle">
+      Set up Your Link-in-Bio
+     </h3>
+     <button aria-label="Close modal" class="modal-close-btn" id="closeModalBtn">
+      ×
+     </button>
+    </div>
+    <!-- Step 1: Username Input -->
     <div class="modal-step active" id="modalStep1">
      <p class="text-gray-700 mb-4" id="modalDescription">
       Choose a unique username for your link-in-bio.
@@ -2067,6 +2081,7 @@ input[disabled] {
     </div>
    </div>
   </div>
+  
   <!-- Image Scraper Modal -->
   <div aria-labelledby="imgScraperTitle" aria-modal="true" class="hidden" id="imageScraperModal" role="dialog">
    <div class="modal-content">
@@ -2097,6 +2112,8 @@ input[disabled] {
   <!-- Combined JavaScript (merged from all JS files) -->
   <script src="https://cdn.tailwindcss.com">
   </script>
+  <!-- Main Application JavaScript -->
+  <script type="module" src="main.js"></script>
   <script type="module">
       
    // Import Firebase configuration and initialization
