@@ -1253,20 +1253,32 @@
             const sendVerificationEmailBtn = document.getElementById('sendVerificationEmailBtn');
             const iHaveVerifiedBtn = document.getElementById('iHaveVerifiedBtn');
             const emailVerificationMessage = document.getElementById('emailVerificationMessage');
-            const setupLinkBtn = document.getElementById('setupLinkBtn'); // Get the button from the overview tab
+            const setupLinkBtn = document.getElementById('setupLinkBtn');
+            
+            // Debug: Check if elements exist
+            if (!linkSetupModal) console.error('linkSetupModal not found');
+            if (!setupLinkBtn) console.error('setupLinkBtn not found');
+            if (!nextStep1Btn) console.error('nextStep1Btn not found');
+            if (!checkUsernameBtn) console.error('checkUsernameBtn not found');
 
             // Function to open the modal
-            setupLinkBtn.addEventListener('click', () => {
+            function openModal() {
+                console.log('Opening modal...');
                 linkSetupModal.classList.add('show');
                 // Reset to step 1
                 modalStep1.classList.add('active');
                 modalStep2.classList.remove('active');
-                usernameInput.value = currentUsername; // Pre-fill if exists
+                usernameInput.value = currentUsername || ''; // Pre-fill if exists
                 usernameAvailabilityMessage.textContent = '';
                 nextStep1Btn.disabled = true;
                 emailVerificationMessage.textContent = '';
                 usernameInput.focus();
-            });
+            }
+
+            // Add event listener for setup link button
+            if (setupLinkBtn) {
+                setupLinkBtn.addEventListener('click', openModal);
+            }
 
             // Function to close the modal
             closeModalBtn.addEventListener('click', () => {
@@ -1281,65 +1293,93 @@
             });
 
             // Step 1: Username Logic
-            usernameInput.addEventListener('input', () => {
-                usernameAvailabilityMessage.textContent = ''; // Clear message on input
-                nextStep1Btn.disabled = true; // Disable next until checked
-            });
+            if (usernameInput) {
+                usernameInput.addEventListener('input', () => {
+                    usernameAvailabilityMessage.textContent = ''; // Clear message on input
+                    nextStep1Btn.disabled = true; // Disable next until checked
+                });
+            }
 
-            checkUsernameBtn.addEventListener('click', async () => {
-                const desiredUsername = usernameInput.value.trim();
-                if (desiredUsername.length < 3) {
-                    usernameAvailabilityMessage.textContent = 'Username must be at least 3 characters.';
-                    usernameAvailabilityMessage.style.color = 'red';
-                    nextStep1Btn.disabled = true;
-                    return;
-                }
-
-                // Simulate availability check
-                const isAvailable = await simulateUsernameAvailability(desiredUsername);
-
-                if (isAvailable) {
-                    usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is available!`;
-                    usernameAvailabilityMessage.style.color = 'green';
-                    nextStep1Btn.disabled = false;
-                } else {
-                    usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is taken. Try another.`;
-                    usernameAvailabilityMessage.style.color = 'red';
-                    nextStep1Btn.disabled = true;
-                }
-            });
-            });
-
-            nextStep1Btn.addEventListener('click', async () => {
-                const desiredUsername = usernameInput.value.trim();
-                if (!userId) {
-                    showIslandNotification('User not authenticated. Cannot save username.', true);
-                    return;
-                }
-
-                try {
-                    const profileRef = ref(rtdb, `users/${userId}/profile`);
-                    // Only update username, keep other profile data if it exists
-                    await update(profileRef, { username: desiredUsername }); // Use update for partial merge
-                    showIslandNotification('Username saved successfully!');
-                    currentUsername = desiredUsername; // Update global variable
-
-                    const user = auth.currentUser;
-                    if (user && user.emailVerified) {
-                        currentUserEmailVerified = true;
-                        showIslandNotification('Email already verified. Link-in-bio is active!');
-                        linkSetupModal.classList.remove('show');
-                        loadOverviewContent(); // Refresh overview to show new link
-                    } else {
-                        currentUserEmailVerified = false;
-                        modalStep1.classList.remove('active');
-                        modalStep2.classList.add('active');
+            if (checkUsernameBtn) {
+                checkUsernameBtn.addEventListener('click', async () => {
+                    console.log('Check username button clicked');
+                    if (!usernameInput) return;
+                    
+                    const desiredUsername = usernameInput.value.trim();
+                    console.log('Checking username:', desiredUsername);
+                    
+                    if (desiredUsername.length < 3) {
+                        usernameAvailabilityMessage.textContent = 'Username must be at least 3 characters.';
+                        usernameAvailabilityMessage.style.color = 'red';
+                        nextStep1Btn.disabled = true;
+                        return;
                     }
-                } catch (error) {
-                    console.error("Error saving username:", error);
-                    showIslandNotification(`Error saving username: ${error.message}`, true);
-                }
-            });
+
+                    try {
+                        // Simulate availability check
+                        const isAvailable = await simulateUsernameAvailability(desiredUsername);
+                        console.log('Username available:', isAvailable);
+
+                        if (isAvailable) {
+                            usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is available!`;
+                            usernameAvailabilityMessage.style.color = 'green';
+                            nextStep1Btn.disabled = false;
+                        } else {
+                            usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is taken. Try another.`;
+                            usernameAvailabilityMessage.style.color = 'red';
+                            nextStep1Btn.disabled = true;
+                        }
+                    } catch (error) {
+                        console.error('Error checking username:', error);
+                        usernameAvailabilityMessage.textContent = 'Error checking username availability. Please try again.';
+                        usernameAvailabilityMessage.style.color = 'red';
+                        nextStep1Btn.disabled = true;
+                    }
+                });
+            }
+
+            if (nextStep1Btn) {
+                nextStep1Btn.addEventListener('click', async () => {
+                    console.log('Next button clicked');
+                    if (!usernameInput || !userId) {
+                        showIslandNotification('User not authenticated. Cannot save username.', true);
+                        return;
+                    }
+
+                    const desiredUsername = usernameInput.value.trim();
+                    if (!desiredUsername) {
+                        showIslandNotification('Please enter a username first', true);
+                        return;
+                    }
+
+                    try {
+                        console.log('Saving username:', desiredUsername);
+                        const profileRef = ref(rtdb, `users/${userId}/profile`);
+                        // Only update username, keep other profile data if it exists
+                        await update(profileRef, { username: desiredUsername });
+                        console.log('Username saved successfully');
+                        showIslandNotification('Username saved successfully!');
+                        currentUsername = desiredUsername; // Update global variable
+
+                        const user = auth.currentUser;
+                        if (user && user.emailVerified) {
+                            console.log('Email already verified');
+                            currentUserEmailVerified = true;
+                            showIslandNotification('Email already verified. Link-in-bio is active!');
+                            linkSetupModal.classList.remove('show');
+                            loadOverviewContent(); // Refresh overview to show new link
+                        } else {
+                            console.log('Email not verified, showing verification step');
+                            currentUserEmailVerified = false;
+                            modalStep1.classList.remove('active');
+                            modalStep2.classList.add('active');
+                        }
+                    } catch (error) {
+                        console.error("Error saving username:", error);
+                        showIslandNotification(`Error saving username: ${error.message}`, true);
+                    }
+                });
+            }
 
             // Step 2: Email Verification Logic
             sendVerificationEmailBtn.addEventListener('click', async () => {
