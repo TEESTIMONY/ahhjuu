@@ -3491,6 +3491,31 @@ input[disabled] {
                     linkInBioDisplay.style.display = 'none'; // Hide the actual link
                     setupLinkBtn.style.display = 'block'; // Show the setup button
                     linkInBioMessage.textContent = 'Set up your personalized link-in-bio!';
+                    // Attach event listener for Check Availability button
+                    const checkUsernameBtn = document.getElementById('checkUsernameBtn');
+                    const usernameInput = document.getElementById('usernameInput');
+                    const usernameAvailabilityMessage = document.getElementById('usernameAvailabilityMessage');
+                    const nextStep1Btn = document.getElementById('nextStep1Btn');
+                    checkUsernameBtn.addEventListener('click', async () => {
+                        const desiredUsername = usernameInput.value.trim();
+                        if (desiredUsername.length < 3) {
+                            usernameAvailabilityMessage.textContent = 'Username must be at least 3 characters.';
+                            usernameAvailabilityMessage.style.color = 'red';
+                            nextStep1Btn.disabled = true;
+                            return;
+                        }
+                        // Simulate availability check
+                        const isAvailable = await simulateUsernameAvailability(desiredUsername);
+                        if (isAvailable) {
+                            usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is available!`;
+                            usernameAvailabilityMessage.style.color = 'green';
+                            nextStep1Btn.disabled = false;
+                        } else {
+                            usernameAvailabilityMessage.textContent = `Username "${desiredUsername}" is taken. Try another.`;
+                            usernameAvailabilityMessage.style.color = 'red';
+                            nextStep1Btn.disabled = true;
+                        }
+                    });
 
                     // Attach event listener after button is visible
                     setupLinkBtn.addEventListener('click', () => {
