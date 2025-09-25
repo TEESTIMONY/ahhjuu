@@ -3504,6 +3504,7 @@ input[disabled] {
                             nextStep1Btn.disabled = true;
                     // Attach event listener for Next button
                     nextStep1Btn.addEventListener('click', async () => {
+                        console.log('Next button clicked');
                         const desiredUsername = usernameInput.value.trim();
                         if (!userId) {
                             showIslandNotification('User not authenticated. Cannot save username.', true);
