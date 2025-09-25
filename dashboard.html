@@ -3616,7 +3616,7 @@ input[disabled] {
                     showIslandNotification('Email successfully verified! Your link-in-bio is now active.');
                     linkSetupModal.classList.remove('show');
                     loadOverviewContent(); // Refresh overview to show new link
-                } else {L
+                } else {
                     showIslandNotification('Email not yet verified. Please check your inbox.', true);
                     emailVerificationMessage.textContent = 'Still not verified. Please try again after verifying your email.';
                     emailVerificationMessage.style.color = 'orange';
@@ -4108,11 +4108,12 @@ input[disabled] {
         document.addEventListener('DOMContentLoaded', async () => {
             // Initialize tab navigation immediately
             initTabNavigation();
+            // Initialize Overview Modal Logic (for Set Up Link in Bio button)
+            initOverviewManagerModalLogic();
 
             // Initialize Firebase and wait for authentication to be ready
             try {
                 await initFirebase();
-                
                 // Once Firebase auth is ready, initialize managers and load initial overview content
                 if (isAuthReady && userId) {
                     console.log("Firebase initialized and user authenticated. Loading data...");
